@@ -57,12 +57,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\UtilityLib\LogConfig.cs">
-      <Link>Utility\LogConfig.cs</Link>
-    </Compile>
     <Compile Include="FirmataWebApi.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utility\LogConfig.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
