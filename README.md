@@ -23,26 +23,42 @@ will contain the error message instead of "OK".
 API Examples
 --------------
 PinMode sets the mode of a pin and may be one of: input, output, analog, pwm
+
     http://host:8000/mmm/oma/pm/{pinIdx:range(2,19)}/{pinMode}
+
 Response: 
+
     {"Status":"OK","PinNum":13,"Mode":"output"}
 
 DigitalRead:
+
     http://host:8000/mmm/oma/dr/{pinIdx:range(2,19)}
+
 Response: 
+
     {"Status":"OK","PinNum":13,"Value":0}
 
 DigitalWrite: 
+
     http://host:8000/mmm/oma/dw/{pinIdx:range(2,19)}/{pinVal:range(0,255)}
+
 Response: 
+
     {"Status":"OK","PinNum":13,"Value":1}
 
 AnalogRead:
+
     http://host:8000/mmm/oma/ar/{pinIdx:range(0,5)}
+
 Response: 
+
     {"Status":"OK","PinNum":2,"Value":172}
 
+
 AnalogWrite: 
+
     http://host:8000/mmm/oma/ar/{pinIdx:range(3,11)}/{pinVal:range(0,255)}
+
 Response: 
+
     {"Status":"OK","PinNum":3,"Value":170}
