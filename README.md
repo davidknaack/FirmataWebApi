@@ -3,6 +3,9 @@
 Firmata Web Api is a Windows Service that provides a bridge between the web and an 
 Arduino running Firmata. The web API uses HTTP GET so it is easy to use from anywhere.
 
+Note that there is no security whatsoever. Keep this in mind when you expose the server.
+Some kind of authentication is on the TODO list.
+
 The Arduino interface is via a branch of the Sharpduino project, and the web interface
 is via self-hosted NancyFX.
 
