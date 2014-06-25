@@ -11,11 +11,11 @@
 
     // This attribute tells Visual Studio to not use the designer for this file.
     [System.ComponentModel.DesignerCategory("")]
-    [ServiceName("OMGMMMAPI")]
+    [ServiceName("FirmataWebApi")]
     class Service : ServiceShell {}
 
     [RunInstaller(true)]
-    [ServiceName("OMGMMMAPI", DisplayName="OMG MMM API", Description = "Omaha Maker Group Makery Monitoring Micro API")]
+    [ServiceName("FirmataWebApi", DisplayName = "Firmata Web API", Description = "Web API bridge for Arduino Firmata")]
     public class Installer : InstallerShell {}
 
     class Program 
@@ -34,7 +34,8 @@
                 Console.SetWindowSize(Math.Min(120, Console.LargestWindowWidth), Math.Min(20, Console.LargestWindowHeight));
 
             var apiPort = ConfigurationManager.AppSettings["ApiPort"] ?? "8000";
-            var uri = new Uri("http://localhost:" + apiPort + "/mmm/oma/");
+            var urlBase = ConfigurationManager.AppSettings["UrlBase"] ?? "";
+            var uri = new Uri("http://localhost:" + apiPort + urlBase );
             log.Info("Hosting service at: " + uri);
 
             using (var host = new NancyHost(new HostConfiguration { UrlReservations = new UrlReservations() { CreateAutomatically = true } }, uri))
