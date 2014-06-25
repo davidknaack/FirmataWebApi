@@ -9,10 +9,6 @@ Some kind of authentication is on the TODO list.
 The Arduino interface is via a branch of the Sharpduino project, and the web interface
 is via self-hosted NancyFX.
 
-This project is in use by the Omaha Maker Group, and the base URL and service name
-are configured for that installation. Feel free to fork the project and customize it
-for your own system.
-
 API functions
 --------------
 The API has 5 functions, PinMode, DigitalRead, DigitalWrite, AnalogRead, and AnalogWrite.
@@ -27,7 +23,7 @@ API Examples
 --------------
 PinMode sets the mode of a pin and may be one of: input, output, analog, pwm
 
-    http://host:8000/mmm/oma/pm/{pinIdx:range(2,19)}/{pinMode}
+    http://host:8000/firmata/pm/{pinIdx:range(2,19)}/{pinMode}
 
 Response: 
 
@@ -35,7 +31,7 @@ Response:
 
 DigitalRead:
 
-    http://host:8000/mmm/oma/dr/{pinIdx:range(2,19)}
+    http://host:8000/firmata/dr/{pinIdx:range(2,19)}
 
 Response: 
 
@@ -43,7 +39,7 @@ Response:
 
 DigitalWrite: 
 
-    http://host:8000/mmm/oma/dw/{pinIdx:range(2,19)}/{pinVal:range(0,255)}
+    http://host:8000/firmata/dw/{pinIdx:range(2,19)}/{pinVal:range(0,255)}
 
 Response: 
 
@@ -51,7 +47,7 @@ Response:
 
 AnalogRead:
 
-    http://host:8000/mmm/oma/ar/{pinIdx:range(0,5)}
+    http://host:8000/firmata/ar/{pinIdx:range(0,5)}
 
 Response: 
 
@@ -60,7 +56,7 @@ Response:
 
 AnalogWrite: 
 
-    http://host:8000/mmm/oma/ar/{pinIdx:range(3,11)}/{pinVal:range(0,255)}
+    http://host:8000/firmata/ar/{pinIdx:range(3,11)}/{pinVal:range(0,255)}
 
 Response: 
 
