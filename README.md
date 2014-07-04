@@ -1,7 +1,9 @@
 ﻿Firmata Web Api
 ==============
-Firmata Web Api is a Windows Service that provides a bridge between the web and an 
+Firmata Web Api is a web service interface that provides a bridge between the web and an 
 Arduino running Firmata. The web API uses HTTP GET so it is easy to use from anywhere.
+It will run either as a Windows Service or under Mono on Linux (init.d script included).
+Both may also be run from the console for testing or short-term use.
 
 Note that there is no security whatsoever. Keep this in mind when you expose the server.
 Some kind of authentication is on the TODO list.
