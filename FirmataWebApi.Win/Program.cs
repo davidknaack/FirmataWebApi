@@ -1,4 +1,4 @@
-﻿namespace AC0KG.FirmataWebApi
+﻿namespace FirmataWebApi.Win
 {
     using System;
     using System.Diagnostics;
@@ -6,8 +6,6 @@
     using AC0KG.Utils.Log;
     using AC0KG.WindowsService;
     using System.ComponentModel;
-    using Nancy.Hosting.Self;
-    using System.Configuration;
 
     // This attribute tells Visual Studio to not use the designer for this file.
     [System.ComponentModel.DesignerCategory("")]
@@ -33,16 +31,11 @@
             if (Environment.UserInteractive)
                 Console.SetWindowSize(Math.Min(120, Console.LargestWindowWidth), Math.Min(20, Console.LargestWindowHeight));
 
-            var apiPort = ConfigurationManager.AppSettings["ApiPort"] ?? "8000";
-            var urlBase = ConfigurationManager.AppSettings["UrlBase"] ?? "";
-            var uri = new Uri("http://localhost:" + apiPort + urlBase );
-            log.Info("Hosting service at: " + uri);
-
-            using (var host = new NancyHost(new HostConfiguration { UrlReservations = new UrlReservations() { CreateAutomatically = true } }, uri))
+            using (var appCore = new FirmataWebApi.Core.FirmataWebApiCore())
             {
                 Service.StartService<Service>(
-                    host.Start,
-                    () => { host.Stop(); FirmataWebApi.Arduino.Dispose(); },
+                    appCore.Start,
+                    appCore.Stop,
                     Environment.UserInteractive);
             }
         }

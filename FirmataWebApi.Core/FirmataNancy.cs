@@ -7,12 +7,12 @@ using System.Diagnostics;
 // https://github.com/davidknaack/sharpduino
 // http://www.codeproject.com/Articles/694907/Lift-your-Petticoats-with-Nancy
 
-namespace AC0KG.FirmataWebApi
+namespace FirmataWebApi.Core
 {
     /// <summary>
     /// Web interfaces for access to the hardware
     /// </summary>
-    public class FirmataWebApi : NancyModule
+    public class FirmataNancy : NancyModule
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger("AppShell");
         
@@ -25,13 +25,10 @@ namespace AC0KG.FirmataWebApi
                 {
                     if (_arduino == null)
                     {
-                        var port = ConfigurationManager.AppSettings["CommPort"];
-                        if (port == null)
-                            Trace.TraceError("App.Config 'CommPort' setting is invalid or missing");
                         try
                         {
-                            Trace.WriteLine("Opening Arduino on port " + port);
-                            _arduino = new ArduinoUno(port);
+                            Trace.WriteLine("Opening Arduino");
+                            _arduino = new ArduinoUno();
                         }
                         catch (Exception ex)
                         {
@@ -44,8 +41,9 @@ namespace AC0KG.FirmataWebApi
             }
         }
 
-        public FirmataWebApi()
+        public FirmataNancy()
         {
+            StaticConfiguration.DisableErrorTraces = false;
             // Reference Arduino as early as possible. After creation Firmata does some 
             // setup comms that must complete before it can be used.
             var arduino = Arduino;
