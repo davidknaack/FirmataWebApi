@@ -65,6 +65,7 @@ namespace FirmataWebApi.Core
             var apiPort = ConfigurationManager.AppSettings["ApiPort"] ?? "8000";
             var urlBase = ConfigurationManager.AppSettings["UrlBase"] ?? "";
             var uri = new Uri("http://localhost:" + apiPort + urlBase );
+
             log.Info("Hosting service at: " + uri);
 
             host = new NancyHost(new HostConfiguration { UrlReservations = new UrlReservations() { CreateAutomatically = true } }, uri);

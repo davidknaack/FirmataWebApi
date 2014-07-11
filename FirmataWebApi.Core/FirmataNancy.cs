@@ -1,19 +1,24 @@
 ﻿using System;
 using Nancy;
+using FirmataWebApi.Core.Models;
 using Sharpduino;
 using System.Configuration;
 using System.Diagnostics;
+using Nancy.ViewEngines.Razor;
 
 // https://github.com/davidknaack/sharpduino
 // http://www.codeproject.com/Articles/694907/Lift-your-Petticoats-with-Nancy
 
 namespace FirmataWebApi.Core
 {
+    
     /// <summary>
     /// Web interfaces for access to the hardware
     /// </summary>
     public class FirmataNancy : NancyModule
     {
+        Nancy.ViewEngines.Razor.AttributeValue a;
+
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger("AppShell");
         
         private static ArduinoUno _arduino;
@@ -47,6 +52,11 @@ namespace FirmataWebApi.Core
             // Reference Arduino as early as possible. After creation Firmata does some 
             // setup comms that must complete before it can be used.
             var arduino = Arduino;
+
+            Get["/control"] = parms =>
+            {
+                return View[new ControlModel()];
+            };
 
             // Set a pin mode
             Get["/pm/{pinIdx:range(2,19)}/{pinMode}"] = parms =>
@@ -148,6 +158,28 @@ namespace FirmataWebApi.Core
                     return Response.AsJson(new { Status = ex.Message });
                 }
             };
+
+            // Set Servo Pin value : 2-13
+            Get["/sw/{pinIdx:range(2,13)}/{pinVal:range(-180,180)}"] = parms =>
+            {
+                try
+                {
+                    log.DebugFormat("set servo {0} value {1} from {2}", parms.pinIdx, parms.pinVal, Request.UserHostAddress);
+                    Arduino.SetServo(parms.pinIdx, parms.pinVal);
+                    return Response.AsJson(new
+                    {
+                        Status = "OK",
+                        PinNum = parms.pinIdx,
+                        Value = parms.pinVal
+                    });
+                }
+                catch (Exception ex)
+                {
+                    log.ErrorFormat("set servo value failed: {0}", ex.Message);
+                    return Response.AsJson(new { Status = ex.Message });
+                }
+            };
+
         }
     }
 }

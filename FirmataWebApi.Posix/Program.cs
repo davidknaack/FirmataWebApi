@@ -10,8 +10,6 @@ using Mono.Unix.Native;
 
 namespace FirmataWebApi.Posix
 {
-    // https://github.com/ServiceStack/ServiceStack/wiki/Run-ServiceStack-as-a-daemon-on-Linux
-
     class Program
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger("AppShell");
@@ -24,7 +22,7 @@ namespace FirmataWebApi.Posix
             using (var appCore = new FirmataWebApi.Core.FirmataWebApiCore())
             {
                 appCore.Start();
-                
+
                 var signals = new UnixSignal[] { 
                     new UnixSignal(Signum.SIGINT), 
                     new UnixSignal(Signum.SIGTERM), 

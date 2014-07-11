@@ -1,0 +1,80 @@
+﻿<html>
+  <head>
+    <script>
+      function httpGet(theUrl)
+      {
+      var xmlHttp = null;
+
+      xmlHttp = new XMLHttpRequest();
+      xmlHttp.open( "GET", theUrl, false );
+      xmlHttp.send( null );
+      return xmlHttp.responseText;
+      }
+
+      function analogWrite(pin, val)
+      {
+      httpGet("/firmata/aw/"+pin+"/"+val)
+      }
+
+      function digitalWrite(pin, val)
+      {
+      httpGet("/firmata/dw/"+pin+"/"+val)
+      }
+
+      function digitalRead(pin)
+      {
+      return httpGet("/firmata/dr/"+pin)
+      }
+
+      function analogRead(pin)
+      {
+      return httpGet("/firmata/ar/"+pin)
+      }
+
+      function getPinValInput(pin)
+      {
+      return document.getElementById("val"+pin).value;
+      }
+
+    </script>
+  </head>
+  <body>
+    @foreach( var pin in Model.Pins )
+    {
+      <div style="background: #C2DEC1; border-radius: 5px; padding-left: 4px;" >
+        <form>
+          <div style="display: inline; padding: 2px;">Pin @pin.Num (@pin.Mode)</div>
+          <div style="display: inline">
+            Modes: <select name="mode">
+            @foreach( var mode in pin.Modes )
+            {
+              <option value="@mode" @(pin.Mode==mode?"Selected":"")>@mode</option>
+            }
+            </select>
+          </div>
+
+          <div id="modePnlInput@(pin.Num)" style="display: @((pin.Mode=="Input")?"inline":"none")">
+            Value: <span id="val@(pin.Num)">@pin.Value</span>
+            <input value="Get" type="button" onclick="javascript:document.getElementById('val@(pin.Num)').innerHTML=digitalRead(@pin.Num)">
+          </div>
+
+          <div id="modePnlAnalog@(pin.Num)" style="display: @((pin.Mode=="Analog")?"inline":"none")">
+            Value: <span id="val@(pin.Num)">@pin.Value</span>
+            <input value="Get" type="button" onclick="javascript:document.getElementById('val@(pin.Num)').innerHTML=analogRead(@pin.AnalogNum)">
+          </div>
+
+          <div id="modePnlOutput@(pin.Num)" style="display: @((pin.Mode=="Output")?"inline":"none")">
+            <input type="radio" name="OutputValue" value="High" @(pin.Value==1?"checked":"") onclick="digitalWrite(@pin.Num,1)")>High
+            <input type="radio" name="OutputValue" value="Low"  @(pin.Value==0?"checked":"") onclick="digitalWrite(@pin.Num,0)")>Low
+          </div>
+
+          <div id="modePnlPWMServo@(pin.Num)" style="display: @(((pin.Mode=="PWM")||(pin.Mode=="Servo"))?"inline":"none")">
+            Value:<input type="text" id="val@(pin.Num)" style="width:35px" value="@pin.Value"></input>
+            <input value="Set" type="button" onclick="javascript:analogWrite(@pin.Num, getPinValInput(@pin.Num))">
+          </div>
+
+          </form>
+      </div>
+    }
+  </body>
+</html>
