@@ -55,6 +55,7 @@ namespace FirmataWebApi.Core
 
             Get["/control"] = parms =>
             {
+                ViewBag.WSPort = FirmataWebApiCore.ApiPort+2;
                 return View[new ControlModel()];
             };
 
